@@ -1,0 +1,18 @@
+Some steps allow you to provide a multi-line argument.
+To attach a multi-line argument to a step, add a line with """ below the step
+followed by the lines that are part of the argument, followed by another line with """
+
+    Given I login to Maximo as User
+      And I go to the Work Orders / Work Order Tracking application
+    
+     When I expand the menu for the menu bar button 'Advanced Search'
+      And I click menu item 'Where Clause'
+          # this step accepts a multi-line argument
+      And I enter the following value in the 'Current Query' field
+          """
+          status in ('WAPPR','APPR')
+          """
+      And I click the Find button
+
+     Then I see at least 1 total number of rows in the 'Work Orders' table
+      And I logout

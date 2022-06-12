@@ -1,0 +1,17 @@
+Scenario: Hyperlink to an application and Return With Value
+
+     When I go to the Self Service / Service Requests / Create Service Request application
+     Then I see that the current application is 'Create Service Request'
+
+     When I activate the detail menu for the 'Asset' field
+      And I click menu item 'Go To Assets'
+      And I see that the current application is 'Assets'
+      And I initiate search in the 'Assets' table
+      And I choose the first row in the 'Assets' table
+     Then I record the value in the Asset field as [Asset]
+      And I record the value in the Location field as [Location]
+      
+     When I click the 'Return With Value' header link
+     Then I see that the current application is 'Create Service Request'
+      And I see the value '[Asset]' in the Asset field
+      And I see the value '[Location]' in the Location field

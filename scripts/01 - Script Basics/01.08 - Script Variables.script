@@ -1,0 +1,30 @@
+testgrinder supports use of variables in scenarios.
+
+A most common use for variables is storing a field value in a variable to be used later in the script.
+For example, if you create a Maximo record that auto generated the record number, you may need to store it for later use.
+
+testgrinder varaibles appear in scripts as a variable name in square brackets, such as [variable].
+To use a variable later on, simply include it as part of a step parameter.
+
+Variables are scoped to the scenario. Thus different scenarios can use same variable names without causing collision.
+
+Scenario: Test finding an Asset by its number
+
+  Given I login to Maximo as User
+    And I go to the Assets / Assets application
+    And I click the 'New Asset' toolbar button
+        # this step records the value appearins in the Asset field on the screen as variable [Asset]
+        # whenever you use a step setting a variable value, the step will echo the value in the run report
+    And I record the value in the 'Asset' field as [Asset]
+    And I enter 'Test Asset' in the description field of the 'Asset' field
+    And I successfully save the record
+
+   When I go to the Assets / Assets application
+    And I enter '=[Asset]' in the Asset filter in the Assets table
+    And I initiate search in the Assets table
+    And I see exactly 1 rows in the Assets table
+    And I choose the first row in the Assets table
+
+   Then I see the value '[Asset]' in the 'Asset' field
+
+    And I logout

@@ -1,0 +1,18 @@
+Some steps accept a table as an argument. The table is specified as a number of columns separated by the | (bar) character.
+
+  Given I login to Maximo as User
+   When I go to the Assets / Assets application
+    And I initiate search in the Assets table
+    And I choose the first row in the Assets table
+   Then I only see these fields in this order in the header section:
+        | field              | attribute              |
+        | Asset              | ASSET.ASSETNUM         |
+        | Asset description  | ASSET.DESCRIPTION      |
+        | Status             | ASSET.STATUS           |
+        | Site               | ASSET.SITEID           |
+        | Type               | ASSET.ASSETTYPE        |
+        | Asset Template     | ASSET.TEMPLATEID       |
+        | Moved              | ASSET.MOVED            |
+        | Calibration        | ASSET.ISCALIBRATION    |
+        | Returned To Vendor | ASSET.RETURNEDTOVENDOR |
+    And I logout

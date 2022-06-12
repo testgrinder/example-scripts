@@ -1,0 +1,14 @@
+Feature: User Authentication
+  
+  You may start your scripts with a Script: or Feature: keyword. These may be helpful for naming the scripts.
+    
+  In general, you should use Feature: if the script is intended to be used as a test of a system's feature.
+  Use Script: in other cases.
+    
+  Scenario: Test User Authentication
+    
+      Test the ability for the User to login.
+    
+      When I login to Maximo as User
+      Then I see the Start Center
+       And I logout

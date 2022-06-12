@@ -1,0 +1,18 @@
+Feature: Assets - Actions - Change Status
+
+  Scenario: Assets - Actions - Change Status - Active
+
+    Given I login to Maximo as User
+      And I go to the Assets / Assets application
+      And I click the 'New Asset' toolbar button
+      And I record the value in the 'Asset' field as [Asset]
+      And I enter 'Test Asset' in the description field of the 'Asset' field
+      And I successfully save the record
+
+     When I select action 'Change Status'
+      And I select 'Active' in the dropdown list for the 'New Status' field
+      And I click the OK button
+
+     Then I see the value 'ACTIVE' in the 'Status' field
+
+      And I logout

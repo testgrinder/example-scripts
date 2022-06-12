@@ -1,0 +1,24 @@
+If all scenarios share the same starting set of scripts (for example context establishment steps), 
+you have the option of moving the common steps to a shared Background:
+  
+The run report will combine the background steps with each of the scenario's.
+
+Background: 
+
+    Given I login to Maximo as User
+
+Scenario: Test access to Assets application
+  
+    Test the ability of User to access Assets application
+  
+     When I go to the Assets / Assets application
+     Then I see that the current application is Assets
+      And I logout
+
+Scenario: Test access to Locations application
+  
+    Test the ability of User to access Locations application
+  
+     When I go to the Assets / Locations application
+     Then I see that the current application is Locations
+      And I logout

@@ -1,0 +1,22 @@
+Feature: Asset Priority
+  
+  User Requirements:
+    U01: Asset records are required to provide a place for storing the Priority
+  
+  Functional Requirements:
+    F01: Asset application will have the Priority field appearing just below the Shift field
+
+  Scenario: Test presence and position of the Priority field
+
+    The scenario tests for the Priority field being available on the Assets main tab below the Shift field
+    
+    Given I login to Maximo as User
+
+    When I go to the Assets / Assets application
+     And I click the 'New Asset' toolbar button
+
+    Then I see the 'Priority' field in the 'Details' section
+     And I see that the 'Priority' field appears immediately below the 'Shift' field
+     And I see that the 'Priority' field is editable
+
+     And I logout

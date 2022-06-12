@@ -1,0 +1,36 @@
+Most testgrinder steps have parameters that you need to provide.
+
+The Step Reference will show the parameters in italics. 
+
+The autocompletion popup (it appears when testgrinder senses you are trying to enter a step) will show the parameters as (...).
+Once you pick a step from the autocompletion popup, the first parameter will be highlighted and you may start typing its value immediately.
+If there are more parameters, you may move between them using Tab or shift+Tab. 
+Press Enter to complete step entry. Press Esc to dismiss the popup.
+
+For example, the login step has the (role) parameter which you need to substitue with the role you want to use.
+
+Here, the role used is User:
+
+Given I login to Maximo as User
+
+# If the parameter value has spaces, you will need to surround it with single or double quotes.
+# A few steps treat spaces in parameters a bit differently though. For example, the 'go to' step:
+
+When I go to the Assets / Assets application
+
+# The step's (path) parameter expects you to provide the steps for clicking through Maximo Go To menu, separating
+# each step with / (slash). If an application (or module) name has a space in it, you don't need to use quotes - 
+# the step will cope with these well. However, if an application name has a / (slash) in its name, although the step
+# will handle it well, you may want to surround the application name in quotes for better readability:
+
+# without quotes added - confusing, but works
+When I go to the Planning / Safety / Lock Out / Tag Out application
+
+# with quotes added - it is easier to read
+When I go to the Planning / Safety / 'Lock Out / Tag Out' application
+
+# Verify that we got to the application. Note that quotes here are required due to spaces in the parameter.
+
+Then I see that the current application is 'Lock Out / Tag Out'
+
+And I logout

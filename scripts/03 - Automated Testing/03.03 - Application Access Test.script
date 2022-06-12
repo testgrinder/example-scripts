@@ -1,0 +1,24 @@
+Feature: Application Access
+  
+  For each example row, login to Maximo as the specified role,
+  then navigate to the specified application, and confirm the application opened.
+  
+  Scenario Outline: User Access Test - <Application>
+    
+    Given I login to Maximo as <Role>
+     When I go to the <Path> application
+     Then I see that the current application is '<Application>'
+      And I logout
+    
+  Examples:
+    | Role          | Path                              | Application         |
+    | Administrator | Assets / Assets                   | Assets              |
+    | Administrator | Assets / Locations                | Locations           |
+    | Administrator | Planning / Job Plans              | Job Plans           |
+    | Administrator | Planning / Data Sheet Template    | Data Sheet Template |
+    | Administrator | Service Desk / Service Requests   | Service Requests    |
+    | Administrator | Work Orders / Labor Reporting     | Labor Reporting     |
+    | Administrator | Work Orders / Quick Reporting     | Quick Reporting     |
+    | Administrator | Work Orders / Work Order Tracking | Work Order Tracking |
+    | Administrator | Inventory / Item Master           | Item Master         |
+    | Administrator | Inventory / Inventory             | Inventory           |

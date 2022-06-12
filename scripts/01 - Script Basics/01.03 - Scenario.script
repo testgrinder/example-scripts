@@ -1,0 +1,12 @@
+If you ran a script consisting of just steps, you may notice that it appears nameless on the run report.
+
+To give scenario a name, add the Scenario: line to your script. Everything to the right of it will become the scenario name on the report.
+  
+Scenario: Test access to Assets application
+  
+    Test the ability of User to access Assets application
+  
+    Given I login to Maximo as User
+     When I go to the Assets / Assets application
+     Then I see that the current application is Assets
+      And I logout

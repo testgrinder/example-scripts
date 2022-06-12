@@ -1,0 +1,9 @@
+Scenario: Find records using Where Clause dialog
+
+      And I expand the menu for the menu bar button 'Advanced Search'
+      And I click menu item 'Where Clause'
+      And I enter the following value in the 'Current Query' field
+      """
+      status in ('WAPPR','APPR')
+      """
+      And I click the Find button

@@ -1,0 +1,32 @@
+Feature: Performance testing
+    
+    Scenario: Work Order search by status must complete within 10 seconds
+      Given I login to Maximo as Administrator
+        And I go to the Work Orders / Work Order Tracking application
+        And I expand the menu for the menu bar button 'Advanced Search'
+        And I click menu item 'Where Clause'
+       When I enter the following value in the 'Current Query' field
+        """
+        status like '%APPR%'
+        """
+        And I change the browser timeout setting to 10 seconds
+        And I click the Find button
+        And I reset the browser timeout setting to the default value
+       Then I see at least 1 total number of rows in the 'Work Orders' table
+        And I logout
+        
+    Scenario Outline: Default search in application much complete within 5 seconds
+      Given I login to Maximo as Administrator
+        And I go to the <Application> application
+       When I change the browser timeout setting to 5 seconds
+        And I initiate search in the '<Table>' table
+        And I reset the browser timeout setting to the default value
+       Then I see at least 1 total number of rows in the '<Table>' table
+        And I logout
+
+    Examples:
+      | Application                       | Table       |
+      | Assets / Locations                | Locations   |
+      | Assets / Assets                   | Assets      |
+      | Work Orders / Work Order Tracking | Work Orders |
+  

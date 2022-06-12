@@ -1,0 +1,8 @@
+In this example, the Assets table is filtered to one row with 1001 in the Asset column.
+It ensures that exactly one row is found, and the clicks on the row to choose it.
+
+     When I enter '=1001' in the 'Asset' filter in the 'Assets' table
+      And I initiate search in the 'Assets' table
+     Then I see exactly 1 row in the 'Assets' table
+      And I see the value '1001' in the 'Asset' field on the current row in the 'Assets' table
+      And I choose the first row in the 'Assets' table

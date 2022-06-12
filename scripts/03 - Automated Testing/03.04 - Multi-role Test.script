@@ -1,0 +1,67 @@
+Feature: Reversal of a completed work order
+
+  As a maintenance supervisor
+  I shall be able to revert a completed work order
+  So I could correct work order data
+
+  Scenario: Reversal by an authorized user shall succeed
+
+    Given I login to Maximo as Administrator
+
+    And I go to the Work Orders / Work Order Tracking application
+    And I click the 'New Work Order' toolbar button
+    And I record the value in the 'Work Order' field as [Work Order]
+    And I enter 'Test Work Order for Scenario: Reversal by an authorized user shall succeed' in the description field of the 'Work Order' field
+    And I enter 'CM' in the 'Work Type' field
+    And I enter '???.????.???' in the 'GL Account' field
+    And I save the record
+
+    And I click the 'Approve Work Order' toolbar button
+    And I click the OK button
+    And I see the value 'APPR' in the Status field
+
+    And I click the 'Initiate Work Order' toolbar button
+    And I click the OK button
+    And I see the value 'SCHED' in the Status field
+
+    And I click the 'Complete Work Order' toolbar button
+    And I click the OK button
+    And I see the value 'COMP' in the Status field
+
+    When I click the 'Initiate Work Order' toolbar button
+    And I click the OK button
+
+    Then I see the value 'INPRG' in the Status field
+
+    And I logout
+
+  Scenario: Reversal by an unauthorized user shall fail
+
+    Given I login to Maximo as UnauthWOReversalUser
+
+    And I go to the Work Orders / Work Order Tracking application
+    And I click the 'New Work Order' toolbar button
+    And I record the value in the 'Work Order' field as [Work Order]
+    And I enter 'Test Work Order for Scenario: Reversal by an unauthorized user shall fail' in the description field of the 'Work Order' field
+    And I enter 'CM' in the 'Work Type' field
+    And I enter '???.????.???' in the 'GL Account' field
+    And I save the record
+
+    And I click the 'Approve Work Order' toolbar button
+    And I click the OK button
+    And I see the value 'APPR' in the Status field
+
+    And I click the 'Initiate Work Order' toolbar button
+    And I click the OK button
+    And I see the value 'SCHED' in the Status field
+
+    And I click the 'Complete Work Order' toolbar button
+    And I click the OK button
+    And I see the value 'COMP' in the Status field
+
+    When I click the 'Initiate Work Order' toolbar button
+
+    Then I see the 'The status cannot be changed for the selected records.' system message
+
+    And I logout
+

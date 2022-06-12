@@ -1,0 +1,23 @@
+The most basic testgrinder script is just a list of steps to execute.
+
+testgrinder treats a line as a step if it starts with a keyword Given, When, Then, And, or But.
+It doesn't matter which keyword you use, they are there for improving readability of your scripts.
+A general idea is to use Given for steps setting up context, When for performing an action, and Then for verifying the action.
+Use And/But to avoid repeting Given/When/Then.
+
+testgrinder is case sensitive. This applies to keywords, step wording, variables, etc.
+
+You may have free form text (such as this) appear above the first step. This may be useful for documenting the script. 
+This text will not appear on the run report. If you want include comments after the first step, preface them with # (hash).
+
+To see all available steps, visit Step Reference via the link above, or navigate to https://testgrinder.com/steps
+
+The steps below instruct testgrinder to login to Maximo using the role User (roles are mapped to Maximo users in Target Systems),
+verify that the Maximo start center is displayed, and then logout.
+
+To run the script, right click on it in the project tree on the left, and choose Run. You may need to setup a Target System first though.
+
+ When I login to Maximo as User
+      # if you want to comment individual steps, you need prefix the comment with a # (hash). Step comments will appear in the run report
+ Then I see the Start Center
+  And I logout

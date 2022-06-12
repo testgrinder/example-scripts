@@ -1,0 +1,58 @@
+Script: Load Assets
+  
+  Scenario Outline: Create Assets including their Locations
+
+    Given I login to Maximo as Administrator
+
+    Then I go to the Assets / Locations application
+    And I click the 'New Location' toolbar button
+    And I enter '<Location>' in the Location field
+    And I enter '<Description>' in the description field of the Location field
+    And I enter 'OPERATING' in the Type field
+    And I enter '<PID>' in the 'P&ID' field
+    And I enter '<GL Account>' in the 'GL Account' field
+
+    And I select action 'Associate Systems with Location'
+    And I click the 'New Row' button in the 'System' table
+    And I enter 'AM' in the System field
+    And I enter '<Parent>' in the Parent field
+    And I click the OK button
+
+    And I successfully save the record
+
+    Then I go to the Assets / Assets application
+    And I click the 'New Asset' toolbar button
+
+    And I activate the detail menu for the Location field
+    And I click menu item 'Select Value'
+    And I enter '=<Location>' in the Location filter in the unlabelled table
+    And I initiate search in the unlabelled table
+    And I see 1 row in the unlabelled table
+    And I select the first row in the unlabelled table
+    And I see a value in the Location field
+
+    And I enter '<Model>' in the 'Model' field
+    And I enter '<Serial>' in the 'Serial #' field
+    And I successfully save the record
+
+    And I logout
+
+  Examples:
+    | Location                    | Parent               | Description                   | PID       | GL Account   | Model                           | Serial     |
+    | BP-AM-08-WU-SRW-FT4604      | BP-AM-08-WU-SRW      | Service Water to SAP          | 46-X-019  | 232.1425.600 | IDP25-T22B21F-M1B1C2L1          |            |
+    | BP-AM-08-WU-SRW-FE4604      | BP-AM-08-WU-SRW      | Service Water to SAP          | 46-X-019  | 232.1425.600 | IDP25-T22B21F-M1B1C2L1          |            |
+    | BP-AM-08-WU-POT-FT4605G     | BP-AM-08-WU-POT      | Potable Water to SAP          | 46-X-020  | 231.1425.600 | IDP25-T22B21F-M1B1C2L1          |            |
+    | BP-AM-08-WU-POT-FE4605G     | BP-AM-08-WU-POT      | Potable Water to SAP          | 46-X-020  | 231.1425.600 | IDP25-T22B21F-M1B1C2L1          |            |
+    | BP-AM-08-WU-UPW-FV4640A     | BP-AM-08-WU-UPW      | UPW flow control from train C | 46-X-027B | 244.1425.600 | "667 Size 45 3"" EZ"            | 20595122   |
+    | BP-AM-08-WU-UPW-FV4640B     | BP-AM-08-WU-UPW      | UPW flow control from train D | 46-X-027B | 244.1425.600 | "667 Size 45 3"" EZ"            | 20695123   |
+    | BP-AM-08-WU-UPW-PT4640A     | BP-AM-08-WU-UPW      | Service Water to UPW          | 46-X-028  | 244.1425.600 | IGP20-T22D01F-L1                |            |
+    | BP-AM-08-WU-UPW-PV4640A     | BP-AM-08-WU-UPW      | Service Water to UPW          | 46-X-028  | 244.1425.600 | "667 Size 4"" ED"               | 1111212008 |
+    | BP-AM-08-GL-GLY-FT4703B     | BP-AM-08-GL-GLY      | Chilled Water to SAP          | 47-X-017  | 241.1425.600 | IDP25-T22B21F-M1B1C2L1          |            |
+    | BP-AM-08-GL-GLY-FT4703C     | BP-AM-08-GL-GLY      | Chilled Water from SAP        | 47-X-017  | 241.1425.600 | IDP25-T22B21F-M1B1C2L1          |            |
+    | BP-AM-08-GL-GLY-PT4703B     | BP-AM-08-GL-GLY      | Chilled Water to SAP          | 47-X-017  | 241.1425.600 | IGP20-T22D21F-M1L1B1C2          |            |
+    | BP-AM-08-GL-GLY-PT4703C     | BP-AM-08-GL-GLY      | Chilled Water from SAP        | 47-X-017  | 241.1425.600 | IGP20-T22D21F-M1L1B1C2          |            |
+    | BP-AM-08-ST-BFW-PT4803F     | BP-AM-08-ST-BFW      | Condensate from SAP           | 48-X-016  | 245.1425.600 | IGP20-T22D21F-M1L1B1C2          |            |
+    | BP-AM-08-ST-BLR-NH3-LT4810  | BP-AM-08-ST-BLR-NH3  | A-5810 Ammonia                | 48-X-025  | 242.1425.600 | AT200/BW/L/A/R1/M4A/X/FM/4115MM |            |
+    | BP-AM-08-ST-BLR-NH3-LG4810  | BP-AM-08-ST-BLR-NH3  | A-5810 Ammonia                | 48-X-025  | 242.1425.600 | AT200/BW/L/A/R1/M4A/X/FM/4115MM |            |
+    | BP-AM-08-ST-BLR-NH3-LT4810A | BP-AM-08-ST-BLR-NH3  | A-5810 Ammonia                | 48-X-025  | 242.1425.600 | AT200/BW/L/A/R1/M4A/X/FM/4115MM |            |
+    | BP-AM-08-ST-BLR-NH3-LG4810A | BP-AM-08-ST-BLR-NH3  | A-5810 Ammonia                | 48-X-025  | 242.1425.600 | AT200/BW/L/A/R1/M4A/X/FM/4115MM |            |

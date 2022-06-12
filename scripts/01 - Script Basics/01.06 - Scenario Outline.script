@@ -1,0 +1,25 @@
+If you have several scenarios that are identical with the exception of different parameter values, you may combine them into a Scenario Outline.
+
+A Scenario Outline lets you define a set of steps with some parts of the steps replaced with named placeholders (they appear as <name>).
+At the bottom of the outline you provide an Examples: table with the first row specifying placeholder names and then as many example rows
+as how many times you need the outline to run with different values.
+
+Each pass through the Scenario Outline will appear as a separate scenario on the run report.
+These scenarios will inherit the Scenario Outline name. 
+It's a good idea to use a placeholder in the scenario outline name to help distinguish individual scenarios on the run report.
+
+Here's an exaple of how a previously shown access test to Assets and Locations applications may look using a Scenario Outline:
+  
+Scenario Outline: Test access to <Application> application
+  
+    Test the ability of User to access <Application> application
+  
+    Given I login to Maximo as User
+     When I go to the <Path> application
+     Then I see that the current application is <Application>
+      And I logout
+      
+  Examples:
+    | Application | Path               |
+    | Assets      | Assets / Assets    |
+    | Locations   | Assets / Locations |

@@ -1,0 +1,36 @@
+Scenario: Choose a specific value from a value list attached to a field
+  
+  Find and inserts CM work type into the Work Type field and confirms that it was accepted
+
+   When I activate the detail menu for the 'Work Type' field
+    And I enter '=CM' in the 'Type' filter in the unnamed table
+    And I initiate search in the unnamed table
+    And I see exactly 1 row in the unnamed table
+    And I choose the first row in the unnamed table
+    And I see the value 'CM' in the 'Work Type' field
+
+
+Scenario: Choose the first value in an indirectly accessible Select Value list for a field
+
+  Pick a location via Select Value detail menu item, store the selected location in [LOCATION] variable
+  
+   When I activate the detail menu for the Location field
+    And I click menu item 'Select Value'
+    And I see the 'Select Value' dialog
+    And I record the value in the 'Location' field on the first row in the unnamed table as [LOCATION]
+    And I choose the first row in the unnamed table
+   Then I do not see a dialog
+    And I see the value '[LOCATION]' in the Location field
+
+
+Scenario: Choose a specific asset from an indirectly accessible Select Value list
+
+     When I activate the detail menu for the Asset field
+      And I click menu item 'Select Value'
+      And I see the 'Select Value' dialog
+      And I enter '=1000' in the Asset filter in the unnamed table
+      And I initiate search in the unnamed table
+      And I see exactly 1 row in the unnamed table
+      And I choose the first row in the unnamed table
+     Then I do not see a dialog
+      And I see the value '1000' in the Asset field

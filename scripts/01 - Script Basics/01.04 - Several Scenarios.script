@@ -1,0 +1,37 @@
+You may have several scenarios in a script.
+
+The example below tests access both to Assets and Locations applications.
+Note that these scenarios will attempt to run in parallel.
+
+A few words on parallel execution. If a run has more than one scenario, testgrinder will attempt to run them in parallel.
+Each scenario is allocated a bot and the bot executes the scenario.
+
+Bot availability depends on:
+1. Your subscription. Your subscription determines how many bots you may use at the same time.
+   This limit is applied across all currently active runs in your account.
+2. Target System's setting 'Maximum number of concurrent scenarios'. 
+   A run will never use more bots than specified there.
+3. Immediate bot availability.
+   If testgrinder sees a need for another bot, it will launch one and it takes about 2 minutes for a bot to come online.
+   Due to this, if your run needs to have several bots allocated to it, you may see the number of active bots gradually increase.
+   Bots stick around after going online. But if a bot idles for more than about half an hour it will shutdown.
+
+If you ever need to restrict a run to just one active scenario at a time, set your Target System's 'Maximum number of concurrent scenarios' to 1.
+
+Scenario: Test access to Assets application
+  
+    Test the ability of User to access Assets application
+  
+    Given I login to Maximo as User
+     When I go to the Assets / Assets application
+     Then I see that the current application is Assets
+      And I logout
+
+Scenario: Test access to Locations application
+  
+    Test the ability of User to access Locations application
+  
+    Given I login to Maximo as User
+     When I go to the Assets / Locations application
+     Then I see that the current application is Locations
+      And I logout

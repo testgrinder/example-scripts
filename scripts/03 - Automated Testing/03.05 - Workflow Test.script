@@ -1,0 +1,292 @@
+Feature: Purchase Requisitions - Workflow Routing for Purchase Request Approval
+  
+  Background:
+    
+    Given I login to Maximo as Test-User
+      
+          # get PR-Requester Person ID and Supervisor
+      And I go to the Security / Users application
+      And I expand the menu for the menu bar button 'Advanced Search'
+      And I click menu item 'Where Clause'
+      And I record the user name for the PR-Requester role as [PR-REQUESTER LOGIN ID]
+      And I enter the following value in the 'Current Query' field
+          """
+          loginid = '[PR-REQUESTER LOGIN ID]'
+          """
+      And I click the Find button
+      And I record the value in the 'Person' field as [PR-REQUESTER]
+      And I record the value in the 'Supervisor' field as [SUPERVISOR]
+      
+          # get PR-Approver-25K Person ID
+      And I select the 'List View' tab
+      And I expand the menu for the menu bar button 'Advanced Search'
+      And I click menu item 'Where Clause'
+      And I record the user name for the PR-Approver-25K role as [PR-APPROVER-25K LOGIN ID]
+      And I enter the following value in the 'Current Query' field
+          """
+          loginid = '[PR-APPROVER-25K LOGIN ID]'
+          """
+      And I click the Find button
+      And I record the value in the 'Person' field as [PR-APPROVER-25K]
+      
+          # get PR-Approver-250K Person ID
+      And I select the 'List View' tab
+      And I expand the menu for the menu bar button 'Advanced Search'
+      And I click menu item 'Where Clause'
+      And I record the user name for the PR-Approver-250K role as [PR-APPROVER-250K LOGIN ID]
+      And I enter the following value in the 'Current Query' field
+          """
+          loginid = '[PR-APPROVER-250K LOGIN ID]'
+          """
+      And I click the Find button
+      And I record the value in the 'Person' field as [PR-APPROVER-250K]
+
+      And I logout
+
+  
+  Scenario: Purchase Requisitions - Workflow Routing for Purchase Request Approval
+    
+    Given I login to Maximo as PR-Requester
+
+          # new pr
+     Then I go to the Purchasing / Purchase Requisitions application
+      And I see that the current application is 'Purchase Requisitions'
+      And I click the 'New Purchase Requisition' toolbar button
+      And I record the value in the 'PR' field as [PR]
+      And I record the value in the 'Site' field as [SITE]
+      And I enter 'Workflow test' in the description field of the 'PR' field
+      
+          # required date
+     Then I record the date 7 days from now as [REQUIRED DATE]
+      And I enter '[REQUIRED DATE]' in the 'Required Date' field
+          
+          # route
+     Then I click the 'Route Workflow' toolbar button
+      And I see the 'Vendor Required' dialog
+      And I see the "Vendor not valid. Must be a Type ' V '. Please correct then press the Workflow button." system message
+      And I click the Close button
+
+          # M vendor
+     When I activate the detail menu for the Company field
+      And I click menu item 'Select Value'
+      And I see the 'Select Value' dialog
+      And I enter '=M' in the 'Company Type' filter in the unnamed table
+      And I initiate search in the unnamed table
+      And I see at least 1 row in the unnamed table
+      And I choose the first row in the unnamed table
+      And I do not see a dialog
+     Then I see a value in the Company field
+          
+          # route
+     Then I click the 'Route Workflow' toolbar button
+      And I see the 'Vendor Required' dialog
+      And I see the "Vendor not valid. Must be a Type ' V '. Please correct then press the Workflow button." system message
+      And I click the Close button
+          
+          # V vendor
+     When I activate the detail menu for the Company field
+      And I click menu item 'Select Value'
+      And I see the 'Select Value' dialog
+      And I enter '=V' in the 'Company Type' filter in the unnamed table
+      And I enter '!=CMP' in the 'Company' filter in the unnamed table
+      And I initiate search in the unnamed table
+      And I see at least 1 row in the unnamed table
+      And I choose the first row in the unnamed table
+      And I do not see a dialog
+     Then I see a value in the Company field
+          
+          # pr line
+     Then I select the 'PR Lines' tab
+      And I click the 'New Row' button in the 'PR Lines' table
+      And I select 'Material' in the dropdown list for the 'Line Type' field
+      And I enter 'Test material' in the description field of the 'Item' field
+          
+          # route
+     When I click the 'Route Workflow' toolbar button
+     Then I see the flash message 'Process ST-PR created assignments.'
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+      And I see the 'Complete Workflow Assignment' dialog
+      And I click the OK button
+     Then I see the 'Commodity Code Required' dialog
+      And I see the 'Commodity Code is blank on a PR Line. Please correct then press the Workflow button.' system message
+      And I click the Close button
+
+          # commodity code
+     When I activate the detail menu for the 'Commodity Code' field
+      And I see the 'Select Value' dialog
+      And I choose the first row in the unnamed table
+      And I do not see a dialog
+     Then I see a value in the 'Commodity Code' field
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+     Then I see the 'GL Debit Required' dialog
+      And I see the 'GL Debit Account is blank on a PR Line. Please correct then press the Workflow button.' system message
+      And I click the Close button
+
+          # gl account
+     When I activate the detail menu for the 'GL Debit Account' field
+      And I see the 'Select Value' dialog
+      And I choose the first row in the unnamed table
+      And I click the OK button
+      And I do not see a dialog
+     Then I see a value in the 'GL Debit Account' field
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+     Then I see the 'Total Cost Required' dialog
+      And I see the 'PR total cost must be greater than zero. Please correct then press the Workflow button.' system message
+      And I click the Close button
+
+          # unit cost ( >25,000 but <250,000 )
+     Then I enter 30000 in the 'Unit Cost' field
+
+          # remove ship to
+     Then I select the 'Ship To / Bill To' tab
+      And I record the value in the 'Ship To' field as [SHIP TO]
+      And I enter '' in the 'Ship To' field
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+     Then I see the 'Ship To Required' dialog
+      And I see the 'On the Ship To tab, enter a Ship To value. Please correct then press the Workflow button.' system message
+      And I click the Close button
+
+          # reenter ship to
+     Then I enter '[SHIP TO]' in the 'Ship To' field
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+     Then I see the 'Manual Input' dialog
+      And I see that the 'Use your default Supervisor for routing. (If needed, submit a URF to add or update your default supervisor).' radio button is selected
+      And I click the OK button
+      And I see the flash message 'Process ST-PRCHECK created assignments.'
+
+          # view workflow assigments
+     Then I select action Workflow / View Workflow Assignments
+      And I only see the following rows in the 'Workflow Assignments' table:
+            | Assigned Person Code | Description                            | Process    |
+            | [SUPERVISOR]         | PR [PR] is assigned for PURCH approval.| ST-PRNONCP |
+      And I click the OK button
+
+          # remove the assignment
+     Then I logout
+      And I login to Maximo as Test-User
+      And I go to the System Configuration / Platform Configuration / Workflow Administration application
+      And I see that the current application is 'Workflow Administration'
+      And I enter '=[PR-REQUESTER]' in the 'Originator' filter in the Processes table
+      And I initiate search in the Processes table
+      And I sort the Processes table by the 'Start Time' column
+      And I sort the Processes table by the 'Start Time' column
+      And I see the value 'Site [SITE], PR [PR]' in the 'Owner Description' field on the first row in the Processes table
+      And I click the 'View/Modify Active Assignments' button on the first row in the Processes table
+      And I see the 'View Active Assignments' dialog
+      And I only see the following rows in the 'View Active Assignments' table:
+            | Assigned Person Code | Application |
+            | [SUPERVISOR]         | PR          |
+      And I click the OK button
+      And I click the 'Stop Process' button on the first row in the Processes table
+      And I see the 'Stop Workflow' dialog
+      And I click the OK button
+      And I see the flash message 'stopped.'
+      And I logout
+
+          # change supervisor to one with DOA < PR Total Cost
+     Then I login to Maximo as PR-Requester
+      And I go to the Purchasing / Purchase Requisitions application
+      And I enter '=[PR]' in the PR filter in the PRs table
+      And I initiate search in the PRs table
+      And I choose the first row in the PRs table
+      And I see the value '[PR]' in the PR field
+      And I enter '[PR-APPROVER-25K]' in the Supervisor field
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+     Then I see the flash message 'started.'
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+      And I see the 'Complete Workflow Assignment' dialog
+      And I click the OK button
+     Then I see the 'Manual Input' dialog
+      And I see that the 'This Supervisor does not have enough DOA. Route anyway.' radio button is selected
+      And I click the Cancel button
+
+          # change to approver with higher DOA
+     Then I enter '[PR-APPROVER-250K]' in the Supervisor field
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+      And I see the 'Complete Workflow Assignment' dialog
+      And I see that the 'Submit this PR for approval.' radio button is selected
+      And I click the OK button
+     Then I see the flash message 'created assignments.'
+
+          # view workflow assigments
+     Then I select action Workflow / View Workflow Assignments
+      And I only see the following rows in the 'Workflow Assignments' table:
+            | Assigned Person Code | Description                             | Process    |
+            | [PR-APPROVER-250K]   | PR [PR] is assigned for PURCH approval. | ST-PRNONCP |
+      And I click the OK button
+
+          # login as the approver
+     Then I logout
+      And I login to Maximo as PR-Approver-250K
+      And I go to the Purchasing / Purchase Requisitions application
+      And I enter '=[PR]' in the PR filter in the PRs table
+      And I initiate search in the PRs table
+      And I choose the first row in the PRs table
+      And I see the value '[PR]' in the PR field
+
+          # making a change
+     Then I enter 'Workflow test, updated' in the description field of the PR field
+          
+          # route
+     When I click the 'Route Workflow' toolbar button
+      And I see the 'Complete Workflow Assignment' dialog
+      And I see that the 'Approve PR for PURCH Purchasing.' radio button is selected
+      And I click the OK button
+
+          # change detected
+     Then I see the 'Manual Input' dialog
+      And I see that the 'PR modified. PR Owner must review changes before submitting to PURCH.' radio button is selected
+      And I click the OK button
+      And I see the flash message 'created assignments.'
+
+          # sign in as requester
+     Then I logout
+      And I login to Maximo as PR-Requester
+      And I go to the Purchasing / Purchase Requisitions application
+      And I enter '=[PR]' in the PR filter in the PRs table
+      And I initiate search in the PRs table
+      And I choose the first row in the PRs table
+      And I see the value '[PR]' in the PR field
+
+          # route
+     When I click the 'Route Workflow' toolbar button
+      And I see the 'Complete Workflow Assignment' dialog
+      And I see that the 'Submit this PR for approval.' radio button is selected
+      And I click the OK button
+     Then I see the flash message 'created assignments.'
+
+          # login as the approver
+     Then I logout
+      And I login to Maximo as PR-Approver-250K
+      And I go to the Purchasing / Purchase Requisitions application
+      And I enter '=[PR]' in the PR filter in the PRs table
+      And I initiate search in the PRs table
+      And I choose the first row in the PRs table
+      And I see the value '[PR]' in the PR field
+
+          # route
+     Then I click the 'Route Workflow' toolbar button
+      And I see the 'Complete Workflow Assignment' dialog
+      And I see that the 'Approve PR for PURCH Purchasing.' radio button is selected
+      And I click the OK button
+          
+          # verify PR is approved
+     Then I see the value 'APPR' in the Status field
+
+      And I logout

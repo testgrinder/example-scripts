@@ -1,0 +1,36 @@
+Script: Routes
+  
+  Scenario Outline: Load Routes with one Asset stop
+    
+    Given I login to Maximo as User
+      And I go to the Planning / Routes application
+      And I see that the current application is 'Routes'
+
+          # create route
+     Then I click the 'New Route' toolbar button
+      And I record a random 8 digit number as [Route]
+      And I enter '[Route]' in the 'Route' field
+      And I see the value '[Route]' in the 'Route' field
+      And I enter '<Description>' in the description field of the 'Route' field
+      And I see the value '<Description>' in the description field of the 'Route' field
+
+          # stops
+     Then I click the 'New Row' button in the 'Route Stops' table
+
+          # asset
+     Then I enter '<Asset>' in the Asset field on the current row in the 'Route Stops' table
+
+          # sequence
+     Then I enter '1' in the 'Sequence' field on the current row in the 'Route Stops' table
+
+          # job plan
+     Then I enter '<Job Plan>' in the 'Job Plan' field on the current row in the 'Route Stops' table
+
+     Then I successfully save the record
+      And I logout
+
+  Examples:
+    | Description   | Asset        | Job Plan |
+    | Test Route    | 158508380643 | 1001     |
+    | Test Route 2  | 158508402525 | 1001     |
+    | Test Route 3  | 158507730042 | 1001     |

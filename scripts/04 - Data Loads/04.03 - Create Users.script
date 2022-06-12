@@ -1,0 +1,50 @@
+Script: Users
+  
+  Scenario Outline: Create Users - Add <User>
+    
+    Given I login to Maximo as Administrator
+      And I go to the Security / Users application
+      And I click the 'New User' toolbar button
+
+     Then I enter '<User>' in the 'User' field
+      And I see the 'Person <User> does not exist.  Do you want to create a new person?' system message
+      And I click the Yes button
+
+     Then I enter '<Login>' in the 'User Name' field
+    
+     Then I click the 'Set Password' button
+      And I enter the password for the Administrator role in the 'Password' field
+      And I enter the password for the Administrator role in the 'Confirm Password' field
+      And I uncheck the 'E-mail Password to User' checkbox
+      And I uncheck the 'Password Should Expire After First Login' checkbox
+      And I click the OK button
+
+     Then I enter '<Site>' in the 'Default Insert Site' field
+      And I enter '<Site>' in the 'Storeroom Site for Self-Service Requisitions' field
+      And I enter '<Storeroom>' in the 'Default Storeroom for Self-Service Requisitions' field
+
+     Then I check off the 'Use Default Insert Site as a Display Filter' checkbox
+
+     Then I successfully save the record
+
+     Then I select the 'Groups' tab
+
+     When I click the 'New Row' button in the 'Groups' table
+      And I activate the detail menu for the Group field in the 'Groups' table details
+      And I click menu item 'Select Value'
+      And I see the 'Select Value' dialog
+      And I enter '=<Group>' in the Group filter in the unnamed table
+      And I initiate search in the unnamed table
+      And I choose the first row in the unnamed table
+      And I do not see a dialog
+     Then I see the value '<Group>' in the 'Group' field in the 'Groups' table details
+
+      And I successfully save the record
+      And I logout
+
+  Examples:
+    | Org     | Site | User    | Login   | Storeroom | Group   |
+    | BEARINC | BP   | NOWOREV | noworev | STORE     | WH      |
+    | BEARINC | BP   | HSE     | hse     | STORE     | HSE     |
+    | BEARINC | BP   | HSE-DM  | hsedm   | STORE     | HSE-DM  |
+    | BEARINC | BP   | HSE-IND | hseind  | STORE     | HSE-IND |
