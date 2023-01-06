@@ -1,0 +1,20 @@
+Scenario Outline: Cleanse Asset <Asset> by rebuildng its description
+  
+  Given I login to Maximo as User
+
+   Then I go to the Assets / Assets application
+    And I enter '=<Asset>' in the Asset filter in the Assets table
+    And I initiate search in the Assets table
+    And I choose the first row in the Assets table
+    And I record the value in the 'Location' field as [Location]
+    And I record the value in the 'Model' field as [Model]
+    And I enter 'Model: [Model], Location: [Location]' in the description field of the 'Asset' field
+    And I successfully save the record
+
+    And I logout
+
+  Examples:
+    | Asset        |
+    | 158508380643 |
+    | 158514496366 |
+    | 158515217313 |
