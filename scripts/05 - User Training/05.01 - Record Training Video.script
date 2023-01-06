@@ -1,0 +1,28 @@
+Scenario: Training video for accessing Work Order Tracking application
+  
+  Given I navigate to Maximo
+   Then I display the following onscreen message in the middle of the screen:
+        """
+        Enter your username and password, then click the Sign In button
+        """
+    And I wait for the onscreen message to disappear
+    And I login to Maximo as User
+   Then I display the following onscreen message in the middle of the screen:
+        """
+        Click on the Go To menu (three horizontal bars in top left page corner)
+        And choose Assets, then Assets again
+        """
+    And I wait for the onscreen message to disappear
+    And I go to the Assets / Assets application
+   Then I display the following onscreen message in the middle of the screen:
+        """
+        You are now in the Assets application
+        """
+    And I wait for the onscreen message to disappear
+    And I wait for 1 second
+   Then I display the following onscreen message in the middle of the screen:
+        """
+        To sign out from Maximo click Sign Out button in the top right corner
+        """
+    And I wait for the onscreen message to disappear
+    And I logout
