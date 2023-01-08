@@ -1,4 +1,4 @@
-Scenario Outline: Cleanse Asset <Asset> by rebuildng its description
+Scenario Outline: Cleanse Asset <Asset> by rebuilding its description
   
   Given I login to Maximo as User
 
